@@ -1,2 +1,28 @@
 Correction et informations ici : https://cisco.goffinet.org/ccna-security/filtrage/lab-pare-feu-cisco-ios-zbf-zone-based-firewall/
 
+On récupère les configurations sur le lien ci dessus (configuration de base, DHCP, routage IPV4 et NAT)
+
+On allumre le PC Pirate
+
+[root@pirate ~]# cat routing.sh
+#!/bin/bash
+
+gateway=$1
+
+ip route add 192.168.59.0/24 via $gateway
+ip route add 192.168.101.0/24 via $gateway
+
+ping -c1 192.168.101.2
+ping -c1 192.168.59.2
+
+ip route del  192.168.59.0/24 via $gateway
+ip route del 192.168.101.0/24 via $gateway
+
+Toujours sur PC Pirate:
+
+bash routing.sh 192.168.122.53 (Après avoir identifié l'adresse sur R1)
+
+--- 192.168.59.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.880/1.880/1.880/0.000 ms
+
